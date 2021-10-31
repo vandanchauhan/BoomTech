@@ -1,8 +1,29 @@
-(function ($) {
-	
-	"use strict";
 
-	// Header Type = Fixed
+
+// ISOTOPE FILTER
+jQuery(document).ready(function($){
+
+  "use strict";
+
+    // ------- WOW ANIMATED ------ //
+  wow = new WOW(
+  {
+    mobile: false
+  });
+  wow.init();
+
+  // HIDE MOBILE MENU AFTER CLIKING ON A LINK
+  $('.navbar-collapse a').click(function(){
+        $(".navbar-collapse").collapse('hide');
+    });
+
+  // NIVO LIGHTBOX
+  $('.iso-box-section a').nivoLightbox({
+        effect: 'fadeScale',
+    });
+
+
+  // Header Type = Fixed
   $(window).scroll(function() {
     var scroll = $(window).scrollTop();
     var box = $('.header-text').height();
@@ -16,7 +37,7 @@
   });
 
 
-	$('.loop').owlCarousel({
+  $('.loop').owlCarousel({
       center: true,
       items:1,
       loop:true,
@@ -35,9 +56,9 @@
         }
       }
   });
-	
+  
 
-	// Menu Dropdown Toggle
+  // Menu Dropdown Toggle
   if($('.menu-trigger').length){
     $(".menu-trigger").on('click', function() { 
       $(this).toggleClass('active');
@@ -125,16 +146,16 @@
   });
 
 
-	// Page loading animation
-	 $(window).on('load', function() {
+  // Page loading animation
+   $(window).on('load', function() {
 
         $('#js-preloader').addClass('loaded');
 
     });
 
-	
+  
 
-	// Window Resize Mobile Menu Fix
+  // Window Resize Mobile Menu Fix
   function mobileNav() {
     var width = $(window).width();
     $('.submenu').on('click', function() {
@@ -145,7 +166,52 @@
     });
   }
 
+  if ( $('.iso-box-wrapper').length > 0 ) { 
 
+      var $container  = $('.iso-box-wrapper'), 
+        $imgs     = $('.iso-box img');
 
+      $container.imagesLoaded(function () {
 
-})(window.jQuery);
+        $container.isotope({
+        layoutMode: 'fitRows',
+        itemSelector: '.iso-box'
+        });
+
+        $imgs.load(function(){
+          $container.isotope('reLayout');
+        })
+
+      });
+
+      //filter items on button click
+
+      $('.filter-wrapper li a').click(function(){
+
+          var $this = $(this), filterValue = $this.attr('data-filter');
+
+      $container.isotope({ 
+        filter: filterValue,
+        animationOptions: { 
+            duration: 750, 
+            easing: 'linear', 
+            queue: false, 
+        }                
+      });             
+
+      // don't proceed if already selected 
+
+      if ( $this.hasClass('selected') ) { 
+        return false; 
+      }
+
+      var filter_wrapper = $this.closest('.filter-wrapper');
+      filter_wrapper.find('.selected').removeClass('selected');
+      $this.addClass('selected');
+
+        return false;
+      }); 
+
+  }
+
+});
