@@ -18,9 +18,9 @@ jQuery(document).ready(function($){
     });
 
   // NIVO LIGHTBOX
-  $('.iso-box-section a').nivoLightbox({
-        effect: 'fadeScale',
-    });
+  // $('.iso-box-section a').nivoLightbox({
+  //       effect: 'fadeScale',
+  //   });
 
 
   // Header Type = Fixed
